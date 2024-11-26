@@ -1,39 +1,37 @@
 'use client';
 
 import { Card } from "@/components/ui/card"
-import { type CoreMessage } from 'ai';
 import { useState } from 'react';
-import { continueTextConversation } from '@/app/actions';
-import { readStreamableValue } from 'ai/rsc';
+import { continueTextConversation } from "@/app/actions";
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { IconArrowUp } from '@/components/ui/icons';
-import  Link from "next/link";
 import AboutCard from "@/components/cards/aboutcard";
+import OpenAI from "openai";
 export const maxDuration = 30;
 
 export default function Chat() {
-  const [messages, setMessages] = useState<CoreMessage[]>([]);
+  const [messages, setMessages] = useState<OpenAI.Chat.Completions.ChatCompletionMessageParam[]>([]);
   const [input, setInput] = useState<string>('');  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const newMessages: CoreMessage[] = [
+    const newMessages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
       ...messages,
       { content: input, role: 'user' },
     ];
     setMessages(newMessages);
-    setInput('');
-    const result = await continueTextConversation(newMessages);
-    for await (const content of readStreamableValue(result)) {
-      setMessages([
-        ...newMessages,
-        {
-          role: 'assistant',
-          content: content as string, 
-        },
-      ]);
-    }
+    
+    const result = await continueTextConversation(input);
+    
+    setInput('');  
+    setMessages([
+      ...newMessages,
+      {
+        role: 'assistant',
+        content: result
+      },
+    ]);
   }
   
   return (    
@@ -70,11 +68,6 @@ export default function Chat() {
                   <IconArrowUp />
                 </Button>
               </div>
-              {messages.length > 1 && (
-                <div className="text-center">
-                  <Link href="/genui" className="text-xs text-blue-400">Try GenUI and streaming components &rarr;</Link>
-                </div>
-              )}
             </form>
           </Card>
         </div>
