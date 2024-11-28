@@ -1,5 +1,5 @@
 
-This is a Akash lite ai project .
+This is a Akash ai chat project .
 
 ## Getting Started
 
