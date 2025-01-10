@@ -1,5 +1,5 @@
 
-This is a Akash ai chat project .
+This is a Deepseek ai chat project .
 
 ## Getting Started
 

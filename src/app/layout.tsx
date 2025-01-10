@@ -6,8 +6,8 @@ import { Header } from "@/components/header";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Akash AI Lite App",
-  description: "Akash AI",
+  title: "Deepseek AI Lite App",
+  description: "Deepseek AI",
 };
 
 export default function RootLayout({
